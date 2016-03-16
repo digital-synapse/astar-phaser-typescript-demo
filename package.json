@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "rd /s /q build & cd src & start \"\" /B \"tsc\" -w > nul & cd.. & live-server --open=src --watch=. --wait=1000"
+    "start": "cd src & start \"\" /B \"tsc\" -w & cd.. & live-server --open=src"
   },
   "keywords": [
     "AI",
@@ -13,5 +13,16 @@
     "Typescript"
   ],
   "author": "dss <digital.synapse.software@gmail.com> (dscode.cf)",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digital-synapse/progranisms.git"
+  },
+  "dependencies": {
+    "phaser": "^2.4.6"
+  },
+  "devDependencies": {
+    "live-server": "^0.9.2",
+    "tsc": "^1.20150623.0"
+  }
 }
