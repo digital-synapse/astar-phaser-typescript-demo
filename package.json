@@ -1,0 +1,17 @@
+{
+  "name": "progranisms",
+  "version": "1.0.0",
+  "description": "A Phaser/Typescript project to experiment with emergent behaviors of synthetic organisms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "rd /s /q build & cd src & start \"\" /B \"tsc\" -w > nul & cd.. & live-server --open=src --watch=. --wait=1000"
+  },
+  "keywords": [
+    "AI",
+    "Phaser",
+    "Typescript"
+  ],
+  "author": "dss <digital.synapse.software@gmail.com> (dscode.cf)",
+  "license": "MIT"
+}
