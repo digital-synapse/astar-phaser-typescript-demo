@@ -7,7 +7,7 @@ class Progranism extends Phaser.Sprite{
         var y= Random.int(game.height);
         super(game, x, y,imageKey);
         this.scale = new Phaser.Point(0.5, 0.5);
-        this.tint = 0xFFFFFF;
+        //this.tint = 0xFF0000;
         this.alpha = 0.3;        
         game.add.existing(this);
         game.physics.arcade.enable(this);

@@ -68,9 +68,9 @@ class Game implements IResizeable {
     public progranisms : Array<Progranism>; 
    
     public resize(w:number, h:number){
-        //this.game.width = w;
-        //this.game.height = h;        
-        this.game.renderer.resize(w,h);       
+        this.game.width = w;
+        this.game.height = h;        
+        this.game.renderer.resize(w,h);               
     }
    
 }
