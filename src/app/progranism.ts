@@ -30,7 +30,7 @@ class Progranism extends Phaser.Sprite{
         //this.nextHistoryUpdate = (new Date).getTime();
     }
     
-    private update(){
+    public update(){
             this.positionHistory = [new Phaser.Point(this.position.x, this.position.y)].concat(this.positionHistory);
             if (this.positionHistory.length > this.maxTrailLength)
                 this.positionHistory.pop();            
