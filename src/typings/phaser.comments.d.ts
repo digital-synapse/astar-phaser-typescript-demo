@@ -24333,6 +24333,7 @@ declare module Phaser {
         */
         constructor(game: Phaser.Game, width: number | string, height: number | string);
 
+        setExactFit: ()=>void;
 
         /**
         * A scale mode that stretches content to fill all available space - see {@link Phaser.ScaleManager#scaleMode scaleMode}.

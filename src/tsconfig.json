@@ -1,10 +1,11 @@
 {
+    "compileOnSave": true,
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
         "noImplicitAny": true,
         "removeComments": true,
-        "preserveConstEnums": true,
+        "preserveConstEnums": true,        
         "out": "../build/app.js",
         "outDir": "../build",
         "rootDir": "./src",
