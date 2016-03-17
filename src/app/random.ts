@@ -1,11 +1,19 @@
 class Random {
     
+    public static get Sign() : number {
+        return Random.Boolean ? -1 : 1;
+    }
+    
+    public static get Boolean() : boolean {
+        return Random.Int(1) ==1;
+    }
+    
     /**
      * Returns a random number between min (inclusive) and max (exclusive)
      */
-    public static double(max:number):number;
-    public static double(min:number, max:number):number;
-    public static double(...params:any[]):number{
+    public static Double(max:number):number;
+    public static Double(min:number, max:number):number;
+    public static Double(...params:any[]):number{
         var min:number, max:number;
         if (params.length === 2){
             min=params[0];
@@ -25,9 +33,9 @@ class Random {
      * Returns a random integer between min (inclusive) and max (inclusive)
      * Using Math.round() will give you a non-uniform distribution!
      */
-    public static int(max:number):number;
-    public static int(min:number, max:number):number;
-    public static int(...params:any[]):number {
+    public static Int(max:number):number;
+    public static Int(min:number, max:number):number;
+    public static Int(...params:any[]):number {
         var min:number, max:number;
         if (params.length === 2){
             min=params[0];
