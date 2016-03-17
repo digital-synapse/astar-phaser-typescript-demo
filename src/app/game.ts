@@ -1,12 +1,13 @@
-// global
-var game:Phaser.Game;
+/// <reference path="./progranism/progranism.ts"/>
 
 class Game {
 
+    public static instance : Phaser.Game;
+    
     constructor() {
         var winW = document.body.offsetWidth;
         var winH = document.body.offsetHeight;
-        game = new Phaser.Game(winW,winH, Phaser.WEBGL, '', this);
+        Game.instance = new Phaser.Game(winW,winH, Phaser.WEBGL, '', this);
 
         this.progranisms = new Array<Progranism>();
         this.maxProgranisms = 300;        
@@ -15,13 +16,13 @@ class Game {
     //private game: Phaser.Game;
     
     private preload() {
-        game.load.image('progranism', '../assets/sphere.png');
+        Game.instance.load.image('progranism', '../assets/sphere.png');
     }
     
     private create() {
-        game.scale.setExactFit();
-        game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+        Game.instance.scale.setExactFit();
+        Game.instance.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+        Game.instance.physics.startSystem(Phaser.Physics.ARCADE);
         
         for (var i=0; i < this.maxProgranisms; i++){
             var p = new Progranism(); 

@@ -1,9 +1,12 @@
+/// <reference path="./ghost-sprite.ts"/>
+/// <reference path="../game.ts"/>
 
 class MotionSprite extends GhostSprite {
  
     constructor(){                
-        var x= Random.int(game.width);
-        var y= Random.int(game.height);
+        var x= Random.int(Game.instance.width);
+        var y= Random.int(Game.instance.height);
+        var game = Game.instance;
         super(game,x,y,'progranism', 10, 0.5);
         this.setTarget(Random.int(game.width), Random.int(game.height));
     }

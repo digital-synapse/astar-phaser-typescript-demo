@@ -1,3 +1,7 @@
+/// <reference path="../sprite/motion-sprite.ts"/>
+/// <reference path="./base-attributes.ts"/>
+/// <reference path="./stats.ts"/>
+
 class Progranism extends MotionSprite {
     
     constructor( mother?: Progranism, father?: Progranism){   

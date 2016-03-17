@@ -1,3 +1,5 @@
+/// <reference path="./base-attributes.ts"/>
+
 class Stats {
     
     constructor( baseAttributes: BaseAttributes){
