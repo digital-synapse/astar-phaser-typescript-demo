@@ -16,6 +16,7 @@ class Game {
     //private game: Phaser.Game;
     
     private preload() {
+        //Game.instance.load.image('food', '../assets/food.png');
         Game.instance.load.image('progranism', '../assets/sphere.png');
     }
     

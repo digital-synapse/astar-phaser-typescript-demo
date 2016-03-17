@@ -36,46 +36,34 @@ class BaseAttributes{
     //      these are basically static values that do not change in a 
     //      progranisms lifetime. They are generated at birth.
     private _strength : number;
-    private _intelligence: number;
-    private _constitution: number;
-    private _resistance: number;
-    private _dexterity: number;
-    private _charisma: number;
-    private _wisdom: number;
-    private _willpower: number;
-    private _perception: number;
-    private _luck: number;
+    public get strength() { return this._strength; }
     
-    public get strength(): number{
-        return this._strength;
-    }
-    public get intelligence(): number{
-        return this._intelligence;
-    }
-    public get constitution(): number {
-        return this._constitution;
-    }
-    public get resistance(): number {
-        return this._resistance;
-    }
-    public get dexterity(): number {
-        return this._dexterity;
-    }
-    public get charisma(): number {
-        return this._charisma;
-    }
-    public get wisdom(): number {
-        return this._wisdom;
-    }
-    public get willpower(): number {
-        return this._willpower;
-    }
-    public get perception(): number {
-        return this._perception;
-    }
-    public get luck(): number {
-        return this._luck;
-    }    
+    private _intelligence: number;
+    public get intelligence() { return this._intelligence; }
+    
+    private _constitution: number;
+    public get constitution() { return this._constitution; }
+    
+    private _resistance: number;
+    public get resistance() { return this._resistance; }
+    
+    private _dexterity: number;
+    public get dexterity() { return this._dexterity; }
+    
+    private _charisma: number;
+    public get charisma() { return this._charisma; }
+    
+    private _wisdom: number;
+    public get wisdom() { return this._wisdom; }
+    
+    private _willpower: number;
+    public get willpower() { return this._willpower; }
+    
+    private _perception: number;
+    public get perception() { return this._perception; }
+    
+    private _luck: number;
+    public get luck() { return this._luck; }    
     
     // combine the 2 parent attributes using a randomized ratio
     // adds a small amount of random mutation 
