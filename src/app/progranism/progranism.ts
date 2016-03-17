@@ -4,10 +4,9 @@
 /// <reference path="./base-info.ts"/>
 /// <reference path="./progranism-state.ts"/>
 
-class Progranism extends MotionSprite {
+class Progranism {
     
-    constructor( mother?: Progranism, father?: Progranism){   
-        super();
+    constructor( mother?: Progranism, father?: Progranism){           
                  
         if (mother && father)                 
             this._baseAttributes = new BaseAttributes(mother.attributes, father.attributes);
@@ -16,8 +15,10 @@ class Progranism extends MotionSprite {
         
         this._info = new BaseInfo();
         this._stats = new Stats(this._baseAttributes, this._info);
-               
+        this._state = new ProgranismState();
+        this._sprite = new MotionSprite();               
     }
+    private _sprite: MotionSprite; 
         
     private _baseAttributes: BaseAttributes;
     public get attributes() { return this._baseAttributes; }

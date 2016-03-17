@@ -28,6 +28,7 @@ class Game {
             var p = new Progranism(); 
             this.progranisms.push(p);
         }
+        console.log(this.progranisms[0]);
     }
     
     private update() {
