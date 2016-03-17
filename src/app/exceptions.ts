@@ -7,6 +7,6 @@ class Exception implements Error{
         this.message = message;
     };
 }
-class ArgumentException extends Error {
+class ArgumentException extends Exception {
     public name:string = 'ArgumentException';
 }
