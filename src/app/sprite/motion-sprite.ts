@@ -1,5 +1,6 @@
 /// <reference path="./ghost-sprite.ts"/>
 /// <reference path="../game.ts"/>
+/// <reference path="../random.ts"/>
 
 class MotionSprite extends GhostSprite {
  

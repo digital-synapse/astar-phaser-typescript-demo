@@ -1,3 +1,5 @@
+/// <reference path="../random.ts"/>
+
 class BaseAttributes{
     
     constructor(mother?: BaseAttributes, father?: BaseAttributes){
