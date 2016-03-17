@@ -1,17 +1,17 @@
 
 class GhostSprite extends Phaser.Sprite{
     
-    constructor(game: Phaser.Game, x:number, y:number, imageKey: string){
+    constructor(game: Phaser.Game, x:number, y:number, imageKey: string, maxTrailSize:number=20, maxAlpha:number=1){
         super(game, x, y,imageKey);
         this.scale = new Phaser.Point(0.5, 0.5);
         //this.tint = 0xFF0000;
-        this.alpha = 0.3;        
+        this.alpha = maxAlpha;        
         game.add.existing(this);
         game.physics.arcade.enable(this);
         
         this.trail = new Array<Phaser.Sprite>();
-        this.maxTrailLength = 25;
-        var alphaStep = (this.alpha*0.9) / this.maxTrailLength;
+        this.maxTrailLength = maxTrailSize;
+        var alphaStep = (this.alpha*0.5) / this.maxTrailLength;
         for (var i=0; i < this.maxTrailLength; i++){
             var sprite = new Phaser.Sprite(game,x,y,imageKey);
             var thisStep = (alphaStep*(i+1));

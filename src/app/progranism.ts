@@ -3,7 +3,7 @@ class Progranism extends GhostSprite {
     constructor(game: Phaser.Game, imageKey: string){
         var x= Random.int(game.width);
         var y= Random.int(game.height);
-        super(game,x,y,imageKey);
+        super(game,x,y,imageKey, 10, 0.5);
         this.setTarget(Random.int(game.width), Random.int(game.height));
     }
     
