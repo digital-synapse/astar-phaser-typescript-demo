@@ -16,7 +16,9 @@ class Progranism {
         this._info = new BaseInfo();
         this._stats = new Stats(this._baseAttributes, this._info);
         this._state = new ProgranismState();
-        this._sprite = new MotionSprite();               
+        this._sprite = new MotionSprite();              
+        
+        this.logicUpdateHandle = setInterval(()=>{this.logicUpdate();},1000);
     }
     private _sprite: MotionSprite; 
         
@@ -31,4 +33,39 @@ class Progranism {
     
     private _state: ProgranismState;
     public get state() { return this._state.current; }
+    
+    private logicUpdateHandle:number;
+    private logicUpdate() {
+         var age = this.stats.yearsOld;
+         
+         if (age <= 0.5){ // baby
+             
+         }
+         else if (age <= 3){ // toddler
+             
+         }
+         else if (age <= 12){ // child
+             
+         }
+         else if (age <= 19){ // teen
+             
+         }
+         else if (age <= 28){ // adult
+             
+         }
+         else if (age <= 45){ // mature
+             
+         }
+         else if (age <= 80){ // old
+             
+         }
+         else { // very old
+             
+         }
+    }
+    
+    public destory() {
+        clearInterval(this.logicUpdateHandle);
+    }
+    
 }

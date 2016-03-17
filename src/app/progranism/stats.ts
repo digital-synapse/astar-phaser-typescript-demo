@@ -1,6 +1,6 @@
 /// <reference path="./base-attributes.ts"/>
 /// <reference path="./base-info.ts"/>
-
+const ticksInYear = 10000;
 class Stats {
     
     constructor( baseAttributes: BaseAttributes, baseInfo: BaseInfo){
@@ -37,5 +37,8 @@ class Stats {
         this._str = this.baseAttributes.strength;
         this._spd= this.spdMax * 0.1;
     }
-      
+    
+    public get yearsOld() {
+        return this.age / ticksInYear;
+    }          
 }
