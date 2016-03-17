@@ -2,10 +2,10 @@
 class MotionSprite extends GhostSprite {
  
     constructor(){                
-        var x= Random.Int(game.width);
-        var y= Random.Int(game.height);
+        var x= Random.int(game.width);
+        var y= Random.int(game.height);
         super(game,x,y,'progranism', 10, 0.5);
-        this.setTarget(Random.Int(game.width), Random.Int(game.height));
+        this.setTarget(Random.int(game.width), Random.int(game.height));
     }
     
     public setTarget(x:number, y:number){
@@ -21,8 +21,8 @@ class MotionSprite extends GhostSprite {
     
     public update(){
         
-        var x = Random.Int(this.targetX-150, this.targetX+150);
-        var y = Random.Int(this.targetY-150, this.targetY+150);
+        var x = Random.int(this.targetX-150, this.targetX+150);
+        var y = Random.int(this.targetY-150, this.targetY+150);
         this.game.physics.arcade.moveToXY(this, x,y,250);
         if (this.hasTarget 
             && Math.abs(x-this.position.x) < 300 
