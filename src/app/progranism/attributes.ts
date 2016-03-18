@@ -1,8 +1,8 @@
 /// <reference path="../random.ts"/>
 
-class BaseAttributes{
+class Attributes{
     
-    constructor(mother?: BaseAttributes, father?: BaseAttributes){
+    constructor(mother?: Attributes, father?: Attributes){
         // make child
         if (mother && father){
                             

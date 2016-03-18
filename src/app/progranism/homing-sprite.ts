@@ -4,7 +4,7 @@
 const PI2 = Math.PI*2;
 const QPI = Math.PI/4;
 
-class MotionSprite extends Phaser.Sprite {
+class HomingSprite extends Phaser.Sprite {
  
     constructor(){                
         var x= Random.int(Game.instance.width);
@@ -40,8 +40,6 @@ class MotionSprite extends Phaser.Sprite {
     private target:Phaser.Point;
     public body: Phaser.Physics.Arcade.Body;
     
-    private vh: Array<Phaser.Point>;
-    private vhi: number;
     public update(){      
         this.turnRadius = .01;
         var angle = Phaser.Math.angleBetweenPoints(this.target,this.position)+10000;
