@@ -10,7 +10,7 @@ class Game {
         Game.instance = new Phaser.Game(winW,winH, Phaser.WEBGL, '', this);
 
         this.progranisms = new Array<Progranism>();
-        this.maxProgranisms = 300;        
+        this.maxProgranisms = 1000;        
     }
         
     //private game: Phaser.Game;
