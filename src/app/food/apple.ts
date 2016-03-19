@@ -1,5 +1,5 @@
-/// <reference path="./food.ts"/>
-class Apple extends Food {
+/// <reference path="./nutrition.ts"/>
+class Apple extends Nutrition {
     
     constructor() {
         super();

@@ -1,27 +1,23 @@
+// <reference path="../game.ts"/>
+/// <reference path="../random.ts"/>
+
 class Food {
-    
-    protected _calories:number;
-    public get calories(){ return this._calories; }
-    
-    protected _fat:number;
-    public get fat(){ return this._fat; }
-    
-    protected _carbohydrates: number;
-    public get carbohydrates() { return this._carbohydrates; }
-    
-    protected _protien: number;
-    public get proties() { return this._protien; }
-    
-    protected _vitaminA: number;
-    public get vitaminA() { return this._vitaminA; }
-    
-    protected _vitaminC: number;
-    public get vitaminC() { return this._vitaminC;}
-    
-    protected _calcium: number;
-    public get calcium() { return this._calcium; }
-    
-    protected _iron: number;
-    public get iron() { return this._iron; }
-    
+    constructor() {
+        var key = 'food';
+        var game = Game.instance;
+        var image = game.cache.getImage(key);
+        var w = image.width;
+        var h = image.height;
+        var x= Random.int(w, Game.instance.width-w);
+        var y= Random.int(h, Game.instance.height-h);
+        this._sprite = new Phaser.Sprite(game,x,y,key);        
+        //this._sprite.anchor.x=w/2;
+        //this._sprite.anchor.y=h-1;        
+        game.add.existing(this._sprite);        
+        
+        this._bin = [];
+        this._bin.push(new Apple());
+    }
+    private _sprite: Phaser.Sprite;    
+    private _bin: Array<Nutrition>;
 }

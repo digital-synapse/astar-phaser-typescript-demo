@@ -1,6 +1,6 @@
 /// <reference path="./enums.ts"/>
-/// <reference path="./base-attributes.ts"/>
-/// <reference path="./base-info.ts"/>
+/// <reference path="./attributes.ts"/>
+/// <reference path="./info.ts"/>
 const ticksInYear = 10000;
 class Stats {
     

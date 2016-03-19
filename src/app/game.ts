@@ -1,4 +1,5 @@
 /// <reference path="./progranism/progranism.ts"/>
+/// <reference path="./food/food.ts"/>
 
 class Game {
 
@@ -10,13 +11,15 @@ class Game {
         Game.instance = new Phaser.Game(winW,winH, Phaser.WEBGL, '', this);
 
         this.progranisms = new Array<Progranism>();
-        this.maxProgranisms = 1000;        
+        this.maxProgranisms = 1000;    
+        this.food = new Array<Food>();    
+        this.maxFood = 3;
     }
         
     //private game: Phaser.Game;
     
     private preload() {
-        //Game.instance.load.image('food', '../assets/food.png');
+        Game.instance.load.image('food', '../assets/food.png');
         Game.instance.load.image('progranism', '../assets/sphere.png');
     }
     
@@ -29,14 +32,21 @@ class Game {
             var p = new Progranism(); 
             this.progranisms.push(p);
         }
-        console.log(this.progranisms[0]);
+        
+        /*
+        for (var i=0; i < this.maxFood; i++){
+            var f= new Food();
+            this.food.push(f);
+        }
+        */
     }
     
     private update() {
        
     }
     
-    
+    public maxFood: number;
+    public food: Array<Food>;
     public maxProgranisms : number;
     public progranisms : Array<Progranism>; 
    

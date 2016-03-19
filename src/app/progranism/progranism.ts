@@ -15,11 +15,11 @@ class Progranism {
         
         this._info = new Info();
         this._stats = new Stats(this._baseAttributes, this._info);        
-        this._sprite = new MotionSprite();              
+        this._sprite = new HomingSprite();              
         
         this.logicUpdateHandle = setInterval(()=>{this.logicUpdate();},1000);
     }
-    private _sprite: MotionSprite; 
+    private _sprite: HomingSprite; 
         
     private _baseAttributes: Attributes;
     public get attributes() { return this._baseAttributes; }
