@@ -10,3 +10,6 @@ class Exception implements Error{
 class ArgumentException extends Exception {
     public name:string = 'ArgumentException';
 }
+class NullReferenceException extends Exception {
+    public name:string = 'NullReferenceException';
+}
