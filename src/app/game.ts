@@ -1,5 +1,8 @@
 /// <reference path="./world/pathfinder.ts"/>
 /// <reference path="./world/walking-sprite.ts"/>
+/// <reference path="./world/debug.ts"/>
+/// <reference path="./world/camera-movement.ts"/>
+/// <reference path="./world/world.ts"/>
 
 const NUM_SPRITES=300;
 
@@ -10,8 +13,7 @@ class Game {
     constructor() {
         var winW = document.body.offsetWidth;
         var winH = document.body.offsetHeight;
-        Game.instance = new Phaser.Game(winW,winH, Phaser.WEBGL, '', this);
-        this.sprites = new Array<WalkingSprite>();                
+        Game.instance = new Phaser.Game(winW,winH, Phaser.WEBGL, '', this);        
     }
 
     private preload() {
@@ -19,80 +21,38 @@ class Game {
         load.image('world_tiles', '../assets/world1.png')
         this.pathfinder = new Pathfinder('../assets/world1.json');   
         load.spritesheet('sprites', '../assets/sprites.png',32,32);   
-    }
-    private pathfinder: Pathfinder;    
+    } 
     
     private create() {
-        var game = Game.instance;                      
-        game.scale.setExactFit();
-        game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-        game.physics.startSystem(Phaser.Physics.P2JS);
-        game.time.advancedTiming = true;
-        var world= game.add.sprite(0,0,'world_tiles');
-        game.world.setBounds(0,0,world.width,world.height);
-
-        
-        //this.pathfinder.create();
+        var game = Game.instance;                              
+        this.world = new World();
+        var group = game.add.group();
+        this.debug = new Debug(group);
+        this.camera = new CameraMovement(); 
+                
         this.pathfinder.create(()=>{
-            for (var i=0; i < NUM_SPRITES; i++)
-                this.sprites[i] = new WalkingSprite('sprites', (i % 39)*12, this.pathfinder);
             
-            game.camera.follow(this.sprites[0]);    
+            for (var i=0; i < NUM_SPRITES; i++){
+                var sprite = new WalkingSprite('sprites', (i % 39)*12, this.pathfinder);
+                group.add(sprite);
+                if (i===0) game.camera.follow(sprite);  
+            }
+              
         });
-        
-        world.inputEnabled=true;
-        world.events.onInputDown.add(()=>{ game.camera.unfollow(); });       
-        this.cursors=game.input.keyboard.createCursorKeys(); 
-        
-        var graphics = game.add.graphics(5,5);        
-        graphics.lineStyle(0);        
-        graphics.beginFill(0x000000, 0.4);
-        graphics.drawRect(0,0,100,50);
-        graphics.endFill();
-        graphics.fixedToCamera=true;
-        this.msgbox = graphics;
-        
-        var style = { font: "bold 12px monospace", fill: "#ffffff", align: "left" };
-        this.debug = game.add.text(8, 6, 'Loading...', style); 
-        this.debug.lineSpacing = -5;
-        this.debug.fixedToCamera=true;              
     }
-    private msgbox: Phaser.Graphics;
-    private debug: Phaser.Text;
-    private cursors: Phaser.CursorKeys;
-    
+        
     private update() {
         var game = Game.instance;
-        if (this.cursors.up.isDown) {
-                game.camera.y -= 10;            
-        }
-        else if (this.cursors.down.isDown)
-        {
-
-                game.camera.y += 10;
-        }
-
-        if (this.cursors.left.isDown)
-        {
-            game.camera.x -= 10;
-        }
-        else if (this.cursors.right.isDown)
-        {
-            game.camera.x += 10;
-        }  
         
-        
-        this.debug.text= 
-            'FPS: '+ game.time.fps.toString() +
-             (game.camera.target ?
-            '\n'+
-            'PX:  ' + parseInt(game.camera.target.position.x.toString()) + '\n' +
-            'PY:  ' + parseInt(game.camera.target.position.y.toString())
-            : '');
-            
-        this.msgbox.height = this.debug.text.split('\n').length * 15;
+        this.debug.write('FPS: '+ game.time.fps.toString());        
+        if (game.camera.target){
+            this.debug.write('PX:  ' + parseInt(game.camera.target.position.x.toString()));
+            this.debug.write('PY:  ' + parseInt(game.camera.target.position.y.toString()));
+        }
     }
-        
-    public sprites: Array<WalkingSprite>;
     
+    private world: World;
+    private pathfinder: Pathfinder;      
+    private debug: Debug;
+    private camera: CameraMovement;        
 }
