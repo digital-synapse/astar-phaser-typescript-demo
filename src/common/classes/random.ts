@@ -1,3 +1,4 @@
+/// <reference path="./exceptions.ts"/>
 class Random {
     
     public static get sign() : number {

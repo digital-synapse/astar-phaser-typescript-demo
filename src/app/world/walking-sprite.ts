@@ -24,18 +24,19 @@ class WalkingSprite extends Phaser.Sprite {
         this.animations.add('idle-left',add([8], startIndex),4,true);
         this.animations.add('idle-right',add([11], startIndex),4,true);
         this.animations.play('idle-down');
-        
+                
         this.pathfinder = pathfinder;
         game.add.existing(this);
         
-        this.position = pathfinder.getRandomWalkablePoint();
+        //this.position = pathfinder.getRandomWalkablePoint();
+        this.position = this.pathfinder.getRandomWalkablePoint();
         this.walkToARandomPlace();      
                 
         this.inputEnabled=true;
         this.events.onInputDown.add(this.onClicked,this);
     }
               
-    private pathfinder: Pathfinder;
+    private pathfinder: Pathfinder;    
     private tweenFrame: number;
     private lastPosition: Phaser.Point;
     private lastDirection: Direction;
@@ -71,7 +72,7 @@ class WalkingSprite extends Phaser.Sprite {
             else if (dif.x < 0){
                 direction = Direction.W;
             }
-            if (adif.y >= adif.x){
+            if (adif.y > adif.x-0.1){
                 if (dif.y > 0){
                     direction = Direction.S;
                 }
@@ -86,46 +87,44 @@ class WalkingSprite extends Phaser.Sprite {
                 if (direction == Direction.E) this.animations.play('walk-right');
                 else if (direction == Direction.S) this.animations.play('walk-down');
                 else if (direction == Direction.N) this.animations.play('walk-up');
-                else if (direction == Direction.N) this.animations.play('walk-left');
+                else if (direction == Direction.W) this.animations.play('walk-left');
             }  
                    
         }
     }
     
     private walkToARandomPlace() {
-        if (!this.tryWalkToARandomPlace()){
-            setTimeout(()=>{this.walkToARandomPlace()},200);
-        }
-    }
-    private static pathfinderLocked:boolean;
-    private tryWalkToARandomPlace():boolean {
-        if (WalkingSprite.pathfinderLocked) return false;
-        WalkingSprite.pathfinderLocked=true;
-        {            
             var game = Game.instance;      
-            var path= this.pathfinder.findPath(this.position, this.pathfinder.getRandomWalkablePoint());
-
-            var dest:any = { x: [], y: [] };
-            var xx:number[]=[], yy:number[]=[];
-            var dist=0;
-            for (var i=path.length-1; i >=0; i--){
-            dest.x.push(path[i].x);
-            dest.y.push(path[i].y);
-            if ( i >0) dist+= Phaser.Math.distance(path[i].x, path[i].y, path[i-1].x, path[i-1].y);  
-            }                        
-            
-            //var tween= game.add.tween(this).to(dest, dist*1000);
-            var tween= game.add.tween(this.position).to(dest, dist * 25);            
-            tween.interpolation((v:number[],k:number)=>{return Phaser.Math.catmullRomInterpolation(v,k);});       
-            this.lastDirection = Direction.S;
-            this.tweenFrame=0;
-            this.lastPosition = new Phaser.Point(this.position.x, this.position.y);
-            tween.onUpdateCallback(this.onTweeningUpdate,this);  
-            tween.onComplete.add(this.onTweeningComplete,this);
-            tween.repeat(0);
-            tween.start();  
-        }
-        WalkingSprite.pathfinderLocked = false;
-        return true;
+            this.pathfinder.findPath(this.position, this.pathfinder.getRandomWalkablePoint(), (path)=>{
+                     
+                // if path is undefined it means findPath failed to find a solution
+                if (path){                                          
+                    var dest:any = { x: [], y: [] };
+                    var xx:number[]=[], yy:number[]=[];
+                    var dist=0;
+                    for (var i=path.length-1; i >=0; i--){
+                    dest.x.push(path[i].x);
+                    dest.y.push(path[i].y);
+                    if ( i >0) dist+= Phaser.Math.distance(path[i].x, path[i].y, path[i-1].x, path[i-1].y);  
+                    }                        
+                    
+                    if (game.camera.target === this) console.table(dest);
+                    
+                    //var tween= game.add.tween(this).to(dest, dist*1000);
+                    var tween= game.add.tween(this.position).to(dest, dist * 25);            
+                    tween.interpolation((v:number[],k:number)=>{return Phaser.Math.catmullRomInterpolation(v,k);});       
+                    this.lastDirection = Direction.S;
+                    this.tweenFrame=0;
+                    this.lastPosition = new Phaser.Point(this.position.x, this.position.y);
+                    tween.onUpdateCallback(this.onTweeningUpdate,this);  
+                    tween.onComplete.add(this.onTweeningComplete,this);
+                    tween.repeat(0);
+                    tween.start();     
+                }            
+            });            
     }
+}
+
+enum Direction {
+    N, NE, E, SE, S, SW, W, NW
 }

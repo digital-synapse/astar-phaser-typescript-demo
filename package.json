@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd src & start \"\" /B \"tsc\" -w & cd.. & live-server --open=src --watch=build/app.js"
+    "start": "cd src & start \"\" /B \"tsc\" --p app -w & start \"\" /B \"tsc\" --p worker -w & cd.. & live-server --open=src --watch=build --wait=4000"
   },
   "keywords": [
     "AI",

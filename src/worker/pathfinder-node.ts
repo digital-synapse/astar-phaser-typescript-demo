@@ -1,5 +1,5 @@
-/// <reference path="../list.ts"/>
-
+/// <reference path="../common/classes/list.ts"/>
+/// <reference path="../common/interfaces/geometry.ts"/>
 
 class PathfinderNode implements IHashCode {
     
@@ -10,9 +10,9 @@ class PathfinderNode implements IHashCode {
     public town: boolean;
     public port: boolean;
     public dungeon: boolean;
-    public rect: Phaser.Rectangle;
+    public rect: IRectangle;
     /// node (tile) position
-    public position: Phaser.Point; 
+    public position: IPoint; 
     public path: IPathfinderNodePaths;
     public paths: Array<IPathfinderNodePath>;
         
