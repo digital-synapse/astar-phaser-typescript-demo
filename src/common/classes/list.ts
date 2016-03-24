@@ -66,6 +66,16 @@ class List<T extends IHashCode> {
             this.counter--;
         }
     }
+    
+    public toArray(){
+        var arr:Array<T>=[];
+        var iterator = this.getIterator();
+        while (iterator.hasMore()){
+            var node = iterator.next();
+            arr.push(node);            
+        }        
+        return arr;
+    }
 }
 
 class ListNode<T> {

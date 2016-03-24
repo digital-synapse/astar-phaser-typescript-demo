@@ -125,5 +125,5 @@ class WalkingSprite extends Phaser.Sprite {
 }
 
 enum Direction {
-    N, NE, E, SE, S, SW, W, NW
+    None, N, NE, E, SE, S, SW, W, NW
 }
