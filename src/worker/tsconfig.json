@@ -6,8 +6,8 @@
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,        
-        "out": "../build/worker.js",
-        "outDir": "../build",
+        "out": "build/worker.js",
+        "outDir": "build",
         "sourceMap": true
     },
     "exclude": [

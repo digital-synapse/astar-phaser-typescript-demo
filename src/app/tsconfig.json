@@ -6,8 +6,8 @@
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,        
-        "out": "../build/app.js",
-        "outDir": "../build",
+        "out": "build/app.js",
+        "outDir": "build",
         "rootDir": "./src",
         "project": "./src",
         "sourceMap": true

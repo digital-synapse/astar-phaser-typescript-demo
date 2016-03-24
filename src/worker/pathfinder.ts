@@ -3,8 +3,6 @@
 /// <reference path="../common/interfaces/geometry.ts"/>
 /// <reference path="../common/interfaces/messages.ts"/>
 
-
-
 class Pathfinder {
         
     constructor(params: IPathfinderInitArgs) {
@@ -113,7 +111,7 @@ class Pathfinder {
         }
     }
     
-    private margin:number = 6; // todo: figure out a better way
+    private margin:number = 6; // hardcoded yuck!
     private rowWidth:number;
     private nodeWidth:number;
     private nodeHeight:number;
@@ -215,8 +213,6 @@ class Pathfinder {
         var iterator= reachable.getIterator();
         var node: PathfinderNode;
         while (node = iterator.next()){
-            
-
            var costStartToNode = node.cost;
            var costNodeToGoal = context.estimateCost(node,goalNode);
            var totalCost = costStartToNode + costNodeToGoal;
@@ -232,8 +228,7 @@ class Pathfinder {
     private estimateCost(fromNode:PathfinderNode, toNode:PathfinderNode):number {
         var xdif = toNode.position.x - fromNode.position.x;
         var ydif = toNode.position.y - fromNode.position.y;
-        var cost= Math.abs(xdif) + Math.abs(ydif);        
+        var cost= Math.sqrt(Math.abs(xdif*2) + Math.abs(ydif*2));        
         return cost;
-
     }
 }

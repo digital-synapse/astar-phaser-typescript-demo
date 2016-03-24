@@ -14,6 +14,7 @@ class WalkingSprite extends Phaser.Sprite {
         var game = Game.instance;
         super(game,0,0,spriteKey);
 
+        
         this.anchor.setTo(0.5,0.8);        
         this.animations.add('walk-up',add([0,1,2,1], startIndex),4,true);
         this.animations.add('walk-down',add([3,4,5,4], startIndex),4,true);
@@ -108,9 +109,7 @@ class WalkingSprite extends Phaser.Sprite {
                     if ( i >0) dist+= Phaser.Math.distance(path[i].x, path[i].y, path[i-1].x, path[i-1].y);  
                     }                        
                     
-                    if (game.camera.target === this) console.table(dest);
-                    
-                    //var tween= game.add.tween(this).to(dest, dist*1000);
+                    //if (game.camera.target === this) console.table(dest);                                        
                     var tween= game.add.tween(this.position).to(dest, dist * 25);            
                     tween.interpolation((v:number[],k:number)=>{return Phaser.Math.catmullRomInterpolation(v,k);});       
                     this.lastDirection = Direction.S;
