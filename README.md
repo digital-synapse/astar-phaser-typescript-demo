@@ -9,7 +9,6 @@ A Phaser/Typescript project to experiment with pathfinding and movement AI
 
     npm start
 
-### Todo:
-
+Todo:
 - implement partial pathfinding.
 - implement group movement (formations)
