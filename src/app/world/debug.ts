@@ -1,7 +1,7 @@
 class Debug extends Phaser.Group {
     
-    constructor(parentGroup: Phaser.Group){        
-        var game = Game.instance;
+    constructor(parentGroup: Phaser.Group){
+        var game = parentGroup.game;        
         super(game);        
         
         this.graphics = game.add.graphics(5,5);        

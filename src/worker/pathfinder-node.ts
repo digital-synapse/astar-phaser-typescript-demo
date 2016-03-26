@@ -3,10 +3,13 @@
 
 class PathfinderNode implements IHashCode {
     
-    constructor() {
+    constructor(walkable: boolean) {
         this.reset();
+        this._walkable = walkable;
     }
-    public walkable: boolean;
+    private _walkable:boolean;
+    public get walkable(){return this._walkable && !this.occupied};
+    public occupied: boolean;
     public town: boolean;
     public port: boolean;
     public dungeon: boolean;

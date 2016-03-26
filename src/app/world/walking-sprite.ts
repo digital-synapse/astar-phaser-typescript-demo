@@ -1,5 +1,5 @@
 /// <reference path="./pathfinder.ts"/>
-
+/// <reference path="./selected-sprite.ts"/>
 
 function add(arr: number[], valueToAdd:number){    
     for (var i=0; i < arr.length; i++){
@@ -8,12 +8,10 @@ function add(arr: number[], valueToAdd:number){
     return arr;
 }
 
-class WalkingSprite extends Phaser.Sprite {
+class WalkingSprite extends SelectedSprite {
     
-    constructor(spriteKey:string, startIndex:number, pathfinder: Pathfinder){
-        var game = Game.instance;
-        super(game,0,0,spriteKey);
-
+    constructor(game: Phaser.Game, spriteKey:string, startIndex:number, pathfinder: Pathfinder){
+        super(game,spriteKey);
         
         this.anchor.setTo(0.5,0.8);        
         this.animations.add('walk-up',add([0,1,2,1], startIndex),4,true);
@@ -31,7 +29,7 @@ class WalkingSprite extends Phaser.Sprite {
         
         //this.position = pathfinder.getRandomWalkablePoint();
         this.position = this.pathfinder.getRandomWalkablePoint();
-        this.walkToARandomPlace();      
+        //this.walkToARandomPlace();      
                 
         this.inputEnabled=true;
         this.events.onInputDown.add(this.onClicked,this);
@@ -43,7 +41,7 @@ class WalkingSprite extends Phaser.Sprite {
     private lastDirection: Direction;
     
     private onClicked() {
-        Game.instance.camera.follow(this);
+        this.game.camera.follow(this);
     }
     
     private onTweeningComplete() {
@@ -53,7 +51,7 @@ class WalkingSprite extends Phaser.Sprite {
             case Direction.W: this.animations.play('idle-left'); break;
             case Direction.N: this.animations.play('idle-up'); break;
         }
-        this.walkToARandomPlace();
+        //this.walkToARandomPlace();
     }
     private onTweeningUpdate(twn:any,percent:any,twnData:any)
     {
@@ -94,8 +92,42 @@ class WalkingSprite extends Phaser.Sprite {
         }
     }
     
-    private walkToARandomPlace() {
-            var game = Game.instance;      
+    public walkTo(target:Phaser.Point) {   
+        //this.pathfinder.move(this.position, target);
+        this.pathfinder.findPath(this.position, target, (path)=>{
+            this.stop();
+                    
+            // if path is undefined it means findPath failed to find a solution
+            if (path){                                          
+                var dest:any = { x: [], y: [] };
+                var xx:number[]=[], yy:number[]=[];
+                var dist=0;
+                for (var i=path.length-1; i >=0; i--){
+                dest.x.push(path[i].x);
+                dest.y.push(path[i].y);
+                if ( i >0) dist+= Phaser.Math.distance(path[i].x, path[i].y, path[i-1].x, path[i-1].y);  
+                }                        
+                
+                //if (game.camera.target === this) console.table(dest);                                        
+                var tween= this.game.add.tween(this.position).to(dest, dist * 25);            
+                tween.interpolation((v:number[],k:number)=>{return Phaser.Math.catmullRomInterpolation(v,k);});       
+                this.lastDirection = Direction.S;
+                this.tweenFrame=0;
+                this.lastPosition = new Phaser.Point(this.position.x, this.position.y);
+                tween.onUpdateCallback(this.onTweeningUpdate,this);  
+                tween.onComplete.add(this.onTweeningComplete,this);
+                tween.repeat(0);
+                tween.start();     
+            }            
+        });            
+    }
+    public stop() {
+        if (this.tween){
+            this.tween.stop();
+        }
+    }
+    private tween: Phaser.Tween;  
+    private walkToARandomPlace() {   
             this.pathfinder.findPath(this.position, this.pathfinder.getRandomWalkablePoint(), (path)=>{
                      
                 // if path is undefined it means findPath failed to find a solution
@@ -110,7 +142,7 @@ class WalkingSprite extends Phaser.Sprite {
                     }                        
                     
                     //if (game.camera.target === this) console.table(dest);                                        
-                    var tween= game.add.tween(this.position).to(dest, dist * 25);            
+                    var tween= this.game.add.tween(this.position).to(dest, dist * 25);            
                     tween.interpolation((v:number[],k:number)=>{return Phaser.Math.catmullRomInterpolation(v,k);});       
                     this.lastDirection = Direction.S;
                     this.tweenFrame=0;
@@ -119,6 +151,7 @@ class WalkingSprite extends Phaser.Sprite {
                     tween.onComplete.add(this.onTweeningComplete,this);
                     tween.repeat(0);
                     tween.start();     
+                    this.tween=tween;
                 }            
             });            
     }

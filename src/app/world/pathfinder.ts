@@ -11,11 +11,11 @@ interface IWorldObjectLocation {
 class Pathfinder {
     
     // create in preload
-    constructor(tiledJsonUrl:string, tilemapKey:string = 'world_map') {
-        this.game = Game.instance;
-        this.game.load.tilemap(tilemapKey, tiledJsonUrl, null,Phaser.Tilemap.TILED_JSON);
+    constructor(game: Phaser.Game, tiledJsonUrl:string, tilemapKey:string = 'world_map') {        
+        game.load.tilemap(tilemapKey, tiledJsonUrl, null,Phaser.Tilemap.TILED_JSON);
         this.worker = WorkerRequest.getInstance();
         this.tilemapKey = tilemapKey;        
+        this.game = game;
     }
     private tilemapKey: string;
     private worker: WorkerRequest;
@@ -68,8 +68,6 @@ class Pathfinder {
     }
     
     private findLayerIndex(name:string):number {
-        var game = Game.instance;        
-        
         var index=0;
         for (var i=0; i < this.map.layers.length; i++){
             var layer = this.map.layers[i];
@@ -105,4 +103,28 @@ class Pathfinder {
             callback(response.pathfinderFindPath);
         })        
     }
+    
+    public occupy(point: Phaser.Point){
+       var msg: IWorkerRequest = {
+            pathfinderOccupy: {x: point.x, y: point.y}
+        }
+        this.worker.post(msg)  
+    }
+    
+    public vacate(point: Phaser.Point){
+       var msg: IWorkerRequest = {
+            pathfinderVacate: {x: point.x, y: point.y}
+        }
+        this.worker.post(msg)  
+    }  
+    
+    public move(start: Phaser.Point, finish: Phaser.Point){
+        var msg: IWorkerRequest = {
+            pathfinderMove: {
+                start: {x: start.x, y: start.y},
+                finish: {x: finish.x, y: finish.y }                
+            }
+        }
+        this.worker.post(msg)  
+    }  
 }

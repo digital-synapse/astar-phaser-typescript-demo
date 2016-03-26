@@ -1,5 +1,5 @@
 # progranisms
-A Phaser/Typescript project to experiment with emergent behaviors of synthetic organisms
+A Phaser/Typescript project to experiment with pathfinding and movement AI
 
 ## to setup
 
@@ -8,3 +8,8 @@ A Phaser/Typescript project to experiment with emergent behaviors of synthetic o
 ## to develop
 
     npm start
+
+### Todo:
+
+- implement partial pathfinding.
+- implement group movement (formations)

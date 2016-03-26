@@ -1,3 +1,4 @@
+const noop = ()=>{};
 class WorkerRequest {
     
     // singleton pattern
@@ -26,9 +27,9 @@ class WorkerRequest {
     private requestCount:number = 0;
     private callbacks: any = {};
     
-    public post( msg: IWorkerRequest, callback: (response:IWorkerResponse)=>void ){
+    public post( msg: IWorkerRequest, callback?: (response:IWorkerResponse)=>void ){
         msg.requestToken = this.requestCount++;
-        this.callbacks[msg.requestToken] = callback;
+        this.callbacks[msg.requestToken] = callback || noop;
         this.worker.postMessage(msg);
     }
     

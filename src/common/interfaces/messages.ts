@@ -9,6 +9,10 @@ interface IPathfinderFindPathArgs {
     start: IPoint;
     finish: IPoint;
 }
+interface IPathfinderMoveArgs {
+    start: IPoint;
+    finish: IPoint;
+}
 
 interface IPathfinderInitArgs{
     tiles: IPathfinderTileProperties[][];
@@ -20,6 +24,9 @@ interface IWorkerRequest {
     requestToken?: number;
     pathfinderInit?: IPathfinderInitArgs;
     pathfinderFindPath?: IPathfinderFindPathArgs;
+    pathfinderOccupy?: IPoint;
+    pathfinderVacate?: IPoint;
+    pathfinderMove?: IPathfinderMoveArgs
 }
 interface IWorkerResponse {
     requestToken: number;

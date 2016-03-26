@@ -17,9 +17,8 @@ class Pathfinder {
         for (var y=0; y < h; y++){
             for (var x=0; x < w; x++){
                 var tile = tiles[y][x];
-                var node = new PathfinderNode();
-                this.nodes.push(node);
-                node.walkable= tile.walkable,                
+                var node = new PathfinderNode(tile.walkable);
+                this.nodes.push(node);                                
                 node.position= {x:x, y:y},
                 node.rect= {
                     x:x*this.nodeWidth, 
@@ -37,36 +36,28 @@ class Pathfinder {
                 var node = this.nodes[(y*w)+x];
                 var adjacent:any={};
                 if (y>0){
-                    adjacent.nodeN = this.nodes[((y-1)*w)+x];
-                    if (!adjacent.nodeN.walkable) adjacent.nodeN=undefined;
+                    adjacent.nodeN = this.nodes[((y-1)*w)+x];                    
                     if (x < w-1){
-                        adjacent.nodeNE = this.nodes[((y-1)*w)+(x+1)];
-                        if (!adjacent.nodeNE.walkable) adjacent.nodeNE=undefined;    
+                        adjacent.nodeNE = this.nodes[((y-1)*w)+(x+1)];    
                     }
                     if (x>0){
-                        adjacent.nodeNW = this.nodes[((y-1)*w)+(x-1)];         
-                        if (!adjacent.nodeNW.walkable) adjacent.nodeNW=undefined;               
+                        adjacent.nodeNW = this.nodes[((y-1)*w)+(x-1)];                        
                     }
                 }
                 if (x < w-1){
-                    adjacent.nodeE = this.nodes[(y*w)+(x+1)];
-                    if (!adjacent.nodeE.walkable) adjacent.nodeE=undefined;
+                    adjacent.nodeE = this.nodes[(y*w)+(x+1)];                    
                 }
                 if (x>0){
-                    adjacent.nodeW  = this.nodes[(y*w)+(x-1)];
-                    if (!adjacent.nodeW.walkable) adjacent.nodeW=undefined;                     
+                    adjacent.nodeW  = this.nodes[(y*w)+(x-1)];                     
                 }
                 if (y < h-1){
                     adjacent.nodeS = this.nodes[((y+1)*w)+x];
-                    if (!adjacent.nodeS.walkable) adjacent.nodeS=undefined;
                     
                     if (x < w-1){
-                        adjacent.nodeSE = this.nodes[((y+1)*w)+(x+1)];
-                        if (!adjacent.nodeSE.walkable) adjacent.nodeSE=undefined; 
+                        adjacent.nodeSE = this.nodes[((y+1)*w)+(x+1)]; 
                     }
                     if (x>0){
-                        adjacent.nodeSW = this.nodes[((y+1)*w)+(x-1)];
-                        if (!adjacent.nodeSW.walkable) adjacent.nodeSW=undefined;                  
+                        adjacent.nodeSW = this.nodes[((y+1)*w)+(x-1)];                  
                     }                    
                 }
                 
@@ -80,19 +71,37 @@ class Pathfinder {
                     sw: adjacent.nodeSW,
                     nw: adjacent.nodeNW
                 }
-                node.paths = [];
-                if (node.path.n) node.paths.push({direction: Direction.N, node: node.path.n});
-                if (node.path.ne) node.paths.push({direction: Direction.NE, node: node.path.ne});
-                if (node.path.e) node.paths.push({direction: Direction.E, node: node.path.e});
-                if (node.path.se) node.paths.push({direction: Direction.SE, node: node.path.se});
-                if (node.path.s) node.paths.push({direction: Direction.S, node: node.path.s});
-                if (node.path.sw) node.paths.push({direction: Direction.SW, node: node.path.sw});
-                if (node.path.w) node.paths.push({direction: Direction.W, node: node.path.w});
-                if (node.path.nw) node.paths.push({direction: Direction.NW, node: node.path.nw});
+                node.paths = [
+                    {direction: Direction.N, node: node.path.n},
+                    {direction: Direction.NE, node: node.path.ne},
+                    {direction: Direction.E, node: node.path.e},
+                    {direction: Direction.SE, node: node.path.se},
+                    {direction: Direction.S, node: node.path.s},
+                    {direction: Direction.SW, node: node.path.sw},
+                    {direction: Direction.W, node: node.path.w},
+                    {direction: Direction.NW, node: node.path.nw}
+                ];
             }            
         }        
     }
-        
+       
+    public occupy(point: IPoint){
+       var node = this.findNodeAtPosition(point);
+       if (node) node.occupied=true; 
+    } 
+    public vacate(point: IPoint){
+       var node = this.findNodeAtPosition(point);
+       if (node) node.occupied=false; 
+    }     
+    
+    public move(start: IPoint, finish: IPoint){
+        var startNode = this.findNodeAtPosition(start);
+        var endNode = this.findNodeAtPosition(finish);
+        if (startNode && endNode){
+            startNode.occupied=false;
+            endNode.occupied=true;
+        }
+    }
     public findPath(start: IPoint, finish: IPoint){
         var startNode = this.findNodeAtPosition(start);
         var endNode = this.findNodeAtPosition(finish);
@@ -137,16 +146,20 @@ class Pathfinder {
     }
     
     private findPathAStar(startNode: PathfinderNode, endNode: PathfinderNode){
+        if (!endNode.walkable || !startNode.walkable)
+            return null; //End node and Start node must be walkable!
+        
         var reachable= new List<PathfinderNode>();                
         var explored= new List<PathfinderNode>();
         reachable.add(startNode);
         startNode.previous=undefined; // make sure we stop here when we build the path
         startNode.cost=0;
         
+        var node: PathfinderNode;
         while (reachable.length > 0){
             
             // choose some node we know how to reach
-            var node = this.chooseNode(reachable, endNode);
+            node = this.chooseNode(reachable, endNode);
             
             // If we just got to the goal node, build and return the path
             if (node == endNode){             
@@ -162,7 +175,7 @@ class Pathfinder {
             // Where can we get from here that we havent explored before?
             for (var i=0; i < node.paths.length; i++){
                 var adjacentNode = node.paths[i].node;
-                if (!adjacentNode.explored){
+                if (!adjacentNode.explored && adjacentNode.walkable){
                     
                     //first time we see this node?
                     if (!adjacentNode.reachable){
@@ -177,11 +190,10 @@ class Pathfinder {
                     }
                 }
             }
-        }
-        
+        }        
         //oops all done so we need to cleanup after ourselves
         this.cleanup(explored);
-        
+                 
         // If we got here, no path was found :(         
         return null;        
     }

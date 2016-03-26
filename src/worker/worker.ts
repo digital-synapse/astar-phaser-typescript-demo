@@ -20,6 +20,16 @@ self.addEventListener('message',(e:any)=>{
         var params=request.pathfinderFindPath;
         response.pathfinderFindPath= pathfinder.findPath(params.start, params.finish)
     }
+    else if (request.pathfinderMove){
+        var p = request.pathfinderMove;
+        pathfinder.move(p.start,p.finish);
+    }
+    else if (request.pathfinderOccupy){
+        pathfinder.occupy(request.pathfinderOccupy);
+    }
+    else if (request.pathfinderVacate){
+        pathfinder.vacate(request.pathfinderVacate);
+    }
     
     self.postMessage(response);
 });
