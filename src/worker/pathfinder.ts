@@ -84,7 +84,7 @@ class Pathfinder {
             }            
         }        
     }
-       
+           
     public occupy(point: IPoint){
        var node = this.findNodeAtPosition(point);
        if (node) node.occupied=true; 
@@ -106,9 +106,16 @@ class Pathfinder {
         var startNode = this.findNodeAtPosition(start);
         var endNode = this.findNodeAtPosition(finish);
         if (startNode && endNode){
-            var path = this.findPathAStar(startNode, endNode);
-            
+
+            if (!endNode.walkable){
+                endNode = this.findClosestNode(endNode);
+            }
+            startNode.occupied=false;
+
+            var path = this.findPathAStar(startNode, endNode);            
             if (path){
+                endNode.occupied=true;
+                
                 var result: Array<IPoint>=[];
                 for (var i=0; i < path.length; i++){
                     var node = path[i];
@@ -242,5 +249,26 @@ class Pathfinder {
         var ydif = toNode.position.y - fromNode.position.y;
         var cost= Math.sqrt(Math.abs(xdif*2) + Math.abs(ydif*2));        
         return cost;
+    }
+    
+    private findClosestNode(node: PathfinderNode){
+        
+        var nodes = new Array<PathfinderNode>();        
+        var index=0;
+        while (!node.walkable){
+            for (var i=0; i < node.paths.length; i++){
+                var n= node.paths[i].node;
+                if (!n.explored){
+                    n.explored=true;
+                    nodes.push(n);
+                }
+            }
+            node = nodes[index++];
+        }
+        // cleanup
+        for (var i=0; i < nodes.length; i++){
+            nodes[i].reset();
+        }
+        return node; // the closest walkable node
     }
 }
