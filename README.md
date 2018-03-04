@@ -1,4 +1,4 @@
-# progranisms
+# astar-phaser-typescript-demo
 A Phaser/Typescript project to experiment with pathfinding and movement AI
 
 ## to setup
